@@ -229,7 +229,7 @@ export default function CreateProduct() {
         </CardContent>
 
         <CardFooter>
-          <SubmitButton text={"Save Product"} />
+          <SubmitButton loadingText={"Saving"} text={"Save Product"} />
         </CardFooter>
       </Card>
     </form>

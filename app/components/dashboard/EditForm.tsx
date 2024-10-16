@@ -242,7 +242,7 @@ export default function EditForm({ data }: iAppProps) {
         </CardContent>
 
         <CardFooter>
-          <SubmitButton text={"Save Changes"} />
+          <SubmitButton loadingText={"Saving Changes"} text={"Save Changes"} />
         </CardFooter>
       </Card>
     </form>
