@@ -21,7 +21,7 @@ const links = [
   },
   {
     name: "Banner Picture",
-    href: "dashboard/banner",
+    href: "/dashboard/banner",
   },
 ];
 
