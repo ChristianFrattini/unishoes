@@ -9,10 +9,16 @@ import {
 import { ShoppingBagIcon } from "lucide-react";
 import UserDropdown from "./UserDropdown";
 import { Button } from "@/components/ui/button";
+import { redis } from "@/app/lib/redis";
+import { Cart } from "@/app/lib/interfaces";
 
 export default async function NavBar() {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
+
+  const cart: Cart | null = await redis.get(`cart-${user.id}`);
+
+  const total = cart?.items.reduce((sum, item) => sum + item.quantity, 0) || 0; //sum accumulator set to 0. each quantity of each item is added to the total
   return (
     <nav
       className={
@@ -41,7 +47,7 @@ export default async function NavBar() {
                   "ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800"
                 }
               >
-                5
+                {total}
               </span>
             </Link>
 
