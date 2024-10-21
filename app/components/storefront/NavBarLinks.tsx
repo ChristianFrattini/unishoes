@@ -13,7 +13,7 @@ export const navbarLinks = [
     href: "/products/all",
   },
   {
-    id: 0,
+    id: 2,
     name: "Men",
     href: "/products/men",
   },
