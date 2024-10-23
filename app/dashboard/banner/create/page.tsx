@@ -1,8 +1,8 @@
 "use client";
 
-import { createBanner, createProduct } from "@/app/actions";
+import { createBanner } from "@/app/actions";
 import SubmitButton from "@/app/components/SubmitButton";
-import prisma from "@/app/lib/db";
+
 import { UploadDropzone } from "@/app/lib/uploadthing";
 import { bannerSchema } from "@/app/lib/zodSchemas";
 import { Button } from "@/components/ui/button";

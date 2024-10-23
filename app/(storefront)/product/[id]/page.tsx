@@ -3,8 +3,8 @@ import FeaturedProducts from "@/app/components/storefront/FeaturedProducts";
 import ImageSlider from "@/app/components/storefront/ImageSlider";
 import { ShoppingBagButton } from "@/app/components/SubmitButton";
 import prisma from "@/app/lib/db";
-import { Button } from "@/components/ui/button";
-import { ShoppingBag, ShoppingBagIcon, StarIcon } from "lucide-react";
+
+import { StarIcon } from "lucide-react";
 import { notFound } from "next/navigation";
 import React from "react";
 

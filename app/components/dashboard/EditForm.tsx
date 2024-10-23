@@ -80,7 +80,7 @@ export default function EditForm({ data }: iAppProps) {
 
       <Card className={"mt-5"}>
         <CardHeader>
-          <CardTitle>Edit "{data.name}"</CardTitle>
+          <CardTitle>Edit {data.name}</CardTitle>
           <CardDescription>
             Please, edit the form and save to apply changes.
           </CardDescription>
