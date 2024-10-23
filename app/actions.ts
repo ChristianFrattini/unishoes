@@ -8,6 +8,8 @@ import prisma from "./lib/db";
 import { redis } from "./lib/redis";
 import { Cart } from "./lib/interfaces";
 import { revalidatePath } from "next/cache";
+import { stripe } from "./lib/stripe";
+import Stripe from "stripe";
 
 export async function createProduct(prevState: unknown, formData: FormData) {
   const { getUser } = getKindeServerSession();
@@ -234,4 +236,39 @@ export async function delItem(formData: FormData) {
   }
 
   revalidatePath("/bag");
+}
+
+export async function checkOut() {
+  //checkoout with stripe
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+
+  if (!user) {
+    return redirect("/");
+  }
+
+  let cart: Cart | null = await redis.get(`cart-${user.id}`);
+
+  if (cart && cart.items) {
+    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = //lineitems const
+      cart.items.map((item) => ({
+        //iterates thorugh the cart items and sets to the constant the price the quantity and the productd data and currency
+        price_data: {
+          currency: "gbp",
+          unit_amount: item.price * 100,
+          product_data: {
+            name: item.name,
+            images: [item.imageString],
+          },
+        },
+        quantity: item.quantity,
+      }));
+    const session = await stripe.checkout.sessions.create({
+      mode: "payment",
+      line_items: lineItems, //line items is sued in the create new stripe session
+      success_url: "http://localhost:3000/payment/success",
+      cancel_url: "http://localhost:3000/payment/cancel",
+    });
+    return redirect(session.url as string);
+  }
 }
