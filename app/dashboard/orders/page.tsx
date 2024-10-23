@@ -1,3 +1,4 @@
+import prisma from "@/app/lib/db";
 import {
   Card,
   CardContent,
@@ -15,7 +16,30 @@ import {
 } from "@/components/ui/table";
 import React from "react";
 
-export default function OrdersPage() {
+async function getData() {
+  const data = await prisma.order.findMany({
+    select: {
+      amount: true,
+      createdAt: true,
+      status: true,
+      id: true,
+      User: {
+        select: {
+          firstName: true,
+          email: true,
+          profileImage: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  return data;
+}
+
+export default async function OrdersPage() {
+  const data = await getData();
   return (
     <Card>
       <CardHeader>
@@ -35,18 +59,24 @@ export default function OrdersPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              <TableCell>
-                <p className={"font-medium"}>Jake Burn</p>
-                <p className={"hidden md:flex text-sm text-muted-foreground"}>
-                  email@email.com
-                </p>
-              </TableCell>
-              <TableCell>Sale</TableCell>
-              <TableCell>Successfull</TableCell>
-              <TableCell>18-09-2024</TableCell>
-              <TableCell className={"text-right"}>£199.99</TableCell>
-            </TableRow>
+            {data.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>
+                  <p className={"font-medium"}>{item.User?.firstName}</p>
+                  <p className={"hidden md:flex text-sm text-muted-foreground"}>
+                    {item.User?.email}
+                  </p>
+                </TableCell>
+                <TableCell>Order</TableCell>
+                <TableCell>{item.status}</TableCell>
+                <TableCell>
+                  {new Intl.DateTimeFormat("en-UK").format(item.createdAt)}
+                </TableCell>
+                <TableCell className={"text-right"}>
+                  £{new Intl.NumberFormat("en-UK").format(item.amount / 100)}
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </CardContent>

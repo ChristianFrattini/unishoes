@@ -13,71 +13,45 @@ import {
   User2,
 } from "lucide-react";
 import React from "react";
+import DashboardStats from "../components/dashboard/DashboardStats";
+import { RecentSales } from "../components/dashboard/RecentSales";
+import Chart from "../components/dashboard/Chart";
+import prisma from "../lib/db";
 
-export default function Dashboard() {
+async function getData() {
+  const now = new Date(); //new date
+  const sevenDaysAgo = new Date(); //new date
+
+  sevenDaysAgo.setDate(now.getDate() - 7); //calculate a week from now
+
+  const data = await prisma.order.findMany({
+    where: {
+      createdAt: {
+        gte: sevenDaysAgo, //greater or equal than 7 days agop
+      },
+    },
+    select: {
+      amount: true,
+      createdAt: true,
+    },
+    orderBy: {
+      createdAt: "asc",
+    },
+  });
+
+  const result = data.map((item) => ({
+    date: new Intl.DateTimeFormat("en-UK").format(item.createdAt),
+    revenue: item.amount / 100,
+  }));
+
+  return result;
+}
+
+export default async function Dashboard() {
+  const data = await getData();
   return (
     <>
-      <div className={"grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4"}>
-        <Card>
-          <CardHeader
-            className={"flex flex-row items-center justify-between pb-2"}
-          >
-            <CardTitle>Total Revenue</CardTitle>
-            <PoundSterlingIcon className={"h-4 w-4 text-blue-800"} />
-          </CardHeader>
-          <CardContent>
-            <p className={"text-2xl font-bold"}>$1000.00</p>
-            <p className={"text-xs text-muted-foreground"}>
-              Based on 100 Charges
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader
-            className={"flex flex-row items-center justify-between pb-2"}
-          >
-            <CardTitle>Total Sales</CardTitle>
-            <ShoppingBag className={"h-4 w-4 text-red-800"} />
-          </CardHeader>
-          <CardContent>
-            <p className={"text-2xl font-bold"}>+50</p>
-            <p className={"text-xs text-muted-foreground"}>
-              Total sales on UniShoes
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader
-            className={"flex flex-row items-center justify-between pb-2"}
-          >
-            <CardTitle>Total Products</CardTitle>
-            <PartyPopper className={"h-4 w-4 text-indigo-800"} />
-          </CardHeader>
-          <CardContent>
-            <p className={"text-2xl font-bold"}>78</p>
-            <p className={"text-xs text-muted-foreground"}>
-              Total products created
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader
-            className={"flex flex-row items-center justify-between pb-2"}
-          >
-            <CardTitle>Total Users</CardTitle>
-            <User2 className={"h-4 w-4 text-orange-800"} />
-          </CardHeader>
-          <CardContent>
-            <p className={"text-2xl font-bold"}>100</p>
-            <p className={"text-xs text-muted-foreground"}>
-              Total users registered
-            </p>
-          </CardContent>
-        </Card>
-      </div>
+      <DashboardStats />
 
       <div
         className={"grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3 mt-10"}
@@ -87,54 +61,13 @@ export default function Dashboard() {
             <CardTitle>Transaction</CardTitle>
             <CardDescription>Recent transactions</CardDescription>
           </CardHeader>
-        </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Recent Sales</CardTitle>
-            <CardDescription>Recent sales</CardDescription>
-          </CardHeader>
-          <CardContent className={"flex flex-col gap-8"}>
-            <div className={"flex items-center gap-4"}>
-              <Avatar className={"hidden sm:flex h-9 w-9"}>
-                <AvatarFallback>AF</AvatarFallback>
-              </Avatar>
-              <div className={"grid gap-1"}>
-                <p className={"text-sm font-medium"}>Fallback Avatar</p>
-                <p className={"text-sm text-muted-foreground"}>
-                  email@email.com
-                </p>
-              </div>
-              <p className={"ml-auto font-medium"}>+£199.99</p>
-            </div>
-
-            <div className={"flex items-center gap-4"}>
-              <Avatar className={"hidden sm:flex h-9 w-9"}>
-                <AvatarFallback>AF</AvatarFallback>
-              </Avatar>
-              <div className={"grid gap-1"}>
-                <p className={"text-sm font-medium"}>Fallback Avatar</p>
-                <p className={"text-sm text-muted-foreground"}>
-                  email@email.com
-                </p>
-              </div>
-              <p className={"ml-auto font-medium"}>+£199.99</p>
-            </div>
-
-            <div className={"flex items-center gap-4"}>
-              <Avatar className={"hidden sm:flex h-9 w-9"}>
-                <AvatarFallback>AF</AvatarFallback>
-              </Avatar>
-              <div className={"grid gap-1"}>
-                <p className={"text-sm font-medium"}>Fallback Avatar</p>
-                <p className={"text-sm text-muted-foreground"}>
-                  email@email.com
-                </p>
-              </div>
-              <p className={"ml-auto font-medium"}>+£199.99</p>
-            </div>
+          <CardContent>
+            <Chart data={data} />
           </CardContent>
         </Card>
+
+        <RecentSales />
       </div>
     </>
   );
