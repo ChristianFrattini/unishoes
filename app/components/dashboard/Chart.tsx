@@ -18,7 +18,7 @@ interface iAppProps {
     revenue: number;
   }[];
 }
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const aggregateData = (data: any) => {
   const aggregated = data.reduce((acc: any, curr: any) => {
     if (acc[curr.date]) {
@@ -34,6 +34,7 @@ const aggregateData = (data: any) => {
     revenue: aggregated[date],
   }));
 };
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 export default function Chart({ data }: iAppProps) {
   const processedData = aggregateData(data);

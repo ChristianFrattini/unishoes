@@ -183,7 +183,9 @@ export default function CreateProduct() {
                 value={images}
                 key={fields.images.key}
                 name={fields.images.name}
+                /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
                 defaultValue={fields.images.initialValue as any}
+                /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
               ></input>
               {images.length > 0 ? (
                 <div className={"flex gap-5"}>
@@ -215,9 +217,10 @@ export default function CreateProduct() {
                   endpoint={"imageUploader"}
                   onClientUploadComplete={(res) => {
                     setImages(res.map((r) => r.url));
-                  }}
+                  }} /*eslint-disable-next-line @typescript-eslint/no-unused-vars*/
                   onUploadError={(res) => {
                     alert("Error: Upload Unsuccessfull");
+                    /*eslint-disable-next-line @typescript-eslint/no-unused-vars*/
                   }}
                 />
               )}
