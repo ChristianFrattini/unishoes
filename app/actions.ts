@@ -247,7 +247,7 @@ export async function checkOut() {
     return redirect("/");
   }
 
-  const cart: Cart | null = await redis.get(`cart-${user.id}`);
+  let cart: Cart | null = await redis.get(`cart-${user.id}`);
 
   if (cart && cart.items) {
     const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = //lineitems const
