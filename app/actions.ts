@@ -246,7 +246,7 @@ export async function checkOut() {
   if (!user) {
     return redirect("/");
   }
-
+  // eslint-disable-next-line prefer-const
   let cart: Cart | null = await redis.get(`cart-${user.id}`);
 
   if (cart && cart.items) {
