@@ -1,10 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Loader2, Loader2Icon, ShoppingBagIcon } from "lucide-react";
+import { Loader2, ShoppingBagIcon } from "lucide-react";
 import React from "react";
 import { useFormStatus } from "react-dom";
-import { string } from "zod";
 
 interface buttonProps {
   text: string;

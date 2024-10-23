@@ -1,4 +1,3 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Card,
   CardContent,
@@ -6,12 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  PartyPopper,
-  PoundSterlingIcon,
-  ShoppingBag,
-  User2,
-} from "lucide-react";
+
 import React from "react";
 import DashboardStats from "../components/dashboard/DashboardStats";
 import { RecentSales } from "../components/dashboard/RecentSales";
