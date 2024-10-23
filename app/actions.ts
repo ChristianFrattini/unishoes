@@ -268,6 +268,9 @@ export async function checkOut() {
       line_items: lineItems, //line items is sued in the create new stripe session
       success_url: "http://localhost:3000/payment/success",
       cancel_url: "http://localhost:3000/payment/cancel",
+      metadata: {
+        userId: user.id,
+      },
     });
     return redirect(session.url as string);
   }

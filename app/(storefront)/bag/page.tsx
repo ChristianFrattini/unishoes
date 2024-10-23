@@ -27,7 +27,7 @@ export default async function BagPage() {
   });
   return (
     <div className={"max-w-2xl mx-auto min-h-[55vh] mt-10"}>
-      {cart?.items.length === 0 ? (
+      {!cart || !cart.items ? (
         <div className="flex min-h-[400px] flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center mt-20">
           <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
             <ShoppingBag className="w-10 h-10 text-primary" />

@@ -19,6 +19,9 @@
     firstName String
     lastName String
     profileImage String
+
+    order Order[]
+
     createdAt DateTime @default(now())
   }
 
@@ -42,6 +45,16 @@
     imageString String
 
     createdAt DateTime @default(now())
+  }
+
+  model Order {
+    id String @id @default(uuid())
+    status String @default("pending")
+    amount Int
+
+    User User? @relation(fields: [userId], references: [id])
+    userId String?
+
   }
 
   enum ProductStatus{
