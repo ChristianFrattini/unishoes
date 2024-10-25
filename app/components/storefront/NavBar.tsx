@@ -16,9 +16,13 @@ export default async function NavBar() {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
-  const cart: Cart | null = await redis.get(`cart-${user.id}`);
+  let total = 0;
 
-  const total = cart?.items.reduce((sum, item) => sum + item.quantity, 0) || 0; //sum accumulator set to 0. each quantity of each item is added to the total
+  // Only fetch cart if user is authenticated
+  if (user) {
+    const cart: Cart | null = await redis.get(`cart-${user.id}`);
+    total = cart?.items.reduce((sum, item) => sum + item.quantity, 0) || 0; //sum accumulator set to 0. each quantity of each item is added to the total
+  }
   return (
     <nav
       className={

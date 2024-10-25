@@ -12,7 +12,7 @@ export default function Success() {
           <div className={"w-full flex justify-center"}>
             <Check
               className={
-                "w-12 h-12 rounded-full bg-green-500/30 text-red-green p-2"
+                "w-12 h-12 rounded-full bg-green-500/30 text-green-500 p-2"
               }
             />
           </div>

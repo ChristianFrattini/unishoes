@@ -17,7 +17,7 @@ export default async function BagPage() {
   const user = await getUser();
 
   if (!user) {
-    return redirect("/");
+    redirect("/");
   }
 
   const cart: Cart | null = await redis.get(`cart-${user.id}`);
