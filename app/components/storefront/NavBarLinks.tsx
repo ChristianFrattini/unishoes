@@ -60,7 +60,7 @@ export default function NavBarLinks({ user }: NavBarLinksProps) {
   return (
     <>
       <div
-        className={"hidden md:flex justify-center items-center gap-x-5 ml-11"}
+        className={"hidden md:flex justify-center items-center gap-x-3 mr-11"}
       >
         {navbarLinks.map((item) => (
           <Link

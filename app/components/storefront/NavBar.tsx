@@ -29,12 +29,13 @@ export default async function NavBar() {
         "w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex items-center justify-between "
       }
     >
-      <div className={"flex items-center w-full"}>
+      <div className={"flex items-center w-[50%] justify-between "}>
         <NavBarLinks
           user={
             user ? { name: user.given_name ?? "Guest", id: user.id } : undefined
           }
         />
+
         <Link href={"/"}>
           <h1 className={"text-black font-bold text-xl lg:text-3xl"}>
             Uni<span className={"text-primary"}>Shoes</span>
