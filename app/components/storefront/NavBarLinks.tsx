@@ -77,13 +77,13 @@ export default function NavBarLinks({ user }: NavBarLinksProps) {
           </Link>
         ))}
       </div>
-      <div className={"md:hidden w-[45%] flex justify-start"}>
+      <div className={"md:hidden w-[45%] flex justify-start "}>
         <Sheet>
           <SheetTrigger>
             <Menu />
           </SheetTrigger>
           <SheetContent side={"left"}>
-            <SheetTitle>Welcome to UniShoes, {user?.name}</SheetTitle>
+            <SheetTitle>Welcome to UniShoes {user?.name}</SheetTitle>
             <SheetDescription>
               Explore our wide range of products
             </SheetDescription>
